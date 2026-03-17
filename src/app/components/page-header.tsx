@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router';
 
 interface PageHeaderProps {
   title: string;
@@ -37,13 +38,13 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
                   </span>
                 )}
                 {crumb.href ? (
-                  <a
-                    href={crumb.href}
-                    style={{ color: 'var(--semantic-interactive-primary)' }}
+                  <Link
+                    to={crumb.href}
+                    style={{ color: 'var(--semantic-interactive-primary)', textDecoration: 'none' }}
                     className="hover:underline"
                   >
                     {crumb.label}
-                  </a>
+                  </Link>
                 ) : (
                   <span style={{ color: 'var(--semantic-text-secondary)' }}>{crumb.label}</span>
                 )}
