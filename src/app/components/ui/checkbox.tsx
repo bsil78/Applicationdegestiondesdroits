@@ -1,32 +1,61 @@
-"use client";
+/**
+ * Composant Checkbox accessible
+ * Stylisé avec les tokens de design
+ */
 
-import * as React from "react";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { CheckIcon } from "lucide-react";
+import React from 'react';
+import { Check } from 'lucide-react';
 
-import { cn } from "./utils";
-
-function Checkbox({
-  className,
-  ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
-  return (
-    <CheckboxPrimitive.Root
-      data-slot="checkbox"
-      className={cn(
-        "peer border bg-input-background dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className,
-      )}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        className="flex items-center justify-center text-current transition-none"
-      >
-        <CheckIcon className="size-3.5" />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
-  );
+interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 }
 
-export { Checkbox };
+export function Checkbox({ checked, onCheckedChange, className, id, ...props }: CheckboxProps) {
+  return (
+    <div className="relative inline-flex" style={{ width: '20px', height: '20px' }}>
+      <input
+        type="checkbox"
+        id={id}
+        checked={checked}
+        onChange={(e) => onCheckedChange?.(e.target.checked)}
+        className={className}
+        style={{
+          position: 'absolute',
+          width: '20px',
+          height: '20px',
+          margin: 0,
+          opacity: 0,
+          cursor: 'pointer',
+        }}
+        {...props}
+      />
+      <div
+        style={{
+          width: '20px',
+          height: '20px',
+          borderRadius: 'var(--primitive-radius-sm)',
+          border: `2px solid ${
+            checked ? 'var(--semantic-interactive-primary)' : 'var(--semantic-border-default)'
+          }`,
+          backgroundColor: checked
+            ? 'var(--semantic-interactive-primary)'
+            : 'var(--semantic-surface-base)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: `all var(--primitive-transition-fast) ease`,
+          pointerEvents: 'none',
+        }}
+      >
+        {checked && (
+          <Check
+            className="w-4 h-4"
+            style={{ color: 'var(--semantic-text-inverse)' }}
+            aria-hidden="true"
+          />
+        )}
+      </div>
+    </div>
+  );
+}

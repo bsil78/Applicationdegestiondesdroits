@@ -74,7 +74,7 @@ export function ProfilePage() {
           <p style={{ color: 'var(--semantic-text-secondary)' }}>Chargement du profil...</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* User Info */}
           <div
             className="lg:col-span-1"
@@ -89,12 +89,12 @@ export function ProfilePage() {
               <div
                 className="inline-flex items-center justify-center mx-auto"
                 style={{
-                  width: '80px',
-                  height: '80px',
+                  width: '64px',
+                  height: '64px',
                   borderRadius: 'var(--primitive-radius-full)',
                   backgroundColor: 'var(--semantic-interactive-primary)',
                   color: 'var(--semantic-text-inverse)',
-                  fontSize: 'var(--primitive-font-size-2xl)',
+                  fontSize: 'var(--primitive-font-size-xl)',
                   fontWeight: 'var(--primitive-font-weight-bold)',
                   marginBottom: 'var(--semantic-spacing-element)',
                 }}
@@ -102,7 +102,7 @@ export function ProfilePage() {
                 {user.firstName[0]}
                 {user.lastName[0]}
               </div>
-              <h2 style={{ marginBottom: 'var(--primitive-space-xs)' }}>
+              <h2 style={{ marginBottom: 'var(--primitive-space-xs)', fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
                 {user.firstName} {user.lastName}
               </h2>
               <p
@@ -111,6 +111,7 @@ export function ProfilePage() {
                   color: 'var(--semantic-text-secondary)',
                   marginBottom: 'var(--semantic-spacing-compact)',
                 }}
+                className="break-all px-2"
               >
                 {user.email}
               </p>
@@ -123,8 +124,8 @@ export function ProfilePage() {
                 paddingTop: 'var(--semantic-spacing-element)',
               }}
             >
-              <dl>
-                <div style={{ marginBottom: 'var(--semantic-spacing-compact)' }}>
+              <dl className="space-y-3 sm:space-y-4">
+                <div>
                   <dt
                     style={{
                       fontSize: 'var(--primitive-font-size-sm)',
@@ -139,7 +140,7 @@ export function ProfilePage() {
                   </dd>
                 </div>
 
-                <div style={{ marginBottom: 'var(--semantic-spacing-compact)' }}>
+                <div>
                   <dt
                     style={{
                       fontSize: 'var(--primitive-font-size-sm)',
@@ -154,7 +155,7 @@ export function ProfilePage() {
                   </dd>
                 </div>
 
-                <div style={{ marginBottom: 'var(--semantic-spacing-compact)' }}>
+                <div>
                   <dt
                     style={{
                       fontSize: 'var(--primitive-font-size-sm)',
@@ -164,7 +165,7 @@ export function ProfilePage() {
                   >
                     Unité organisationnelle
                   </dt>
-                  <dd style={{ fontWeight: 'var(--primitive-font-weight-medium)' }}>
+                  <dd style={{ fontWeight: 'var(--primitive-font-weight-medium)' }} className="break-words">
                     {orgUnit?.path || '-'}
                   </dd>
                 </div>
@@ -179,7 +180,7 @@ export function ProfilePage() {
                   >
                     Dernière connexion
                   </dt>
-                  <dd style={{ fontWeight: 'var(--primitive-font-weight-medium)' }}>
+                  <dd style={{ fontWeight: 'var(--primitive-font-weight-medium)' }} className="break-words text-sm">
                     {user.lastLoginAt
                       ? new Intl.DateTimeFormat('fr-FR', {
                           dateStyle: 'long',
@@ -202,16 +203,16 @@ export function ProfilePage() {
               padding: 'var(--component-card-padding)',
             }}
           >
-            <h2 style={{ marginBottom: 'var(--semantic-spacing-component)' }}>
+            <h2 style={{ marginBottom: 'var(--semantic-spacing-component)', fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
               Mes permissions ({permissions.length})
             </h2>
 
             {permissions.length === 0 ? (
-              <p style={{ color: 'var(--semantic-text-secondary)' }}>
+              <p style={{ color: 'var(--semantic-text-secondary)', fontSize: 'var(--primitive-font-size-sm)' }}>
                 Aucune permission n'est actuellement attribuée à votre compte.
               </p>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {permissions.map((permission) => {
                   const app = applications.find((a) => a.id === permission.applicationId);
                   return (
@@ -224,7 +225,7 @@ export function ProfilePage() {
                         border: `var(--primitive-border-width-thin) solid var(--semantic-border-subtle)`,
                       }}
                     >
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div>
                           <h3
                             style={{
@@ -264,7 +265,7 @@ export function ProfilePage() {
                         </div>
                       </div>
 
-                      <div className="text-xs text-gray-500">
+                      <div style={{ fontSize: 'var(--primitive-font-size-xs)', color: 'var(--semantic-text-tertiary)' }}>
                         {permission.expiresAt && (
                           <p>
                             Expire le:{' '}

@@ -86,6 +86,7 @@ export function PermissionsPage() {
     {
       key: 'actions',
       header: 'Actions autorisées',
+      mobileLabel: 'Actions',
       render: (permission) => (
         <div className="flex flex-wrap gap-2">
           {permission.actions.map((action) => (
@@ -97,6 +98,7 @@ export function PermissionsPage() {
     {
       key: 'countries',
       header: 'Pays',
+      hideOnMobile: true, // Caché sur mobile
       render: (permission) => (
         <div style={{ maxWidth: '150px' }} className="truncate" title={getCountryNames(permission.countryIds)}>
           {getCountryNames(permission.countryIds) || 'Aucun'}
@@ -144,24 +146,28 @@ export function PermissionsPage() {
         action={
           <Button
             onClick={() => navigate('/permissions/new')}
+            className="w-full sm:w-auto"
             style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: 'var(--primitive-space-sm)',
+              minHeight: '44px',
             }}
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
-            Nouvelle permission
+            <span className="hidden sm:inline">Nouvelle permission</span>
+            <span className="sm:hidden">Nouveau</span>
           </Button>
         }
       />
 
       {/* Filters */}
       <div
-        className="grid grid-cols-1 md:grid-cols-4 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
         style={{
           marginBottom: 'var(--semantic-spacing-component)',
-          padding: 'var(--component-card-padding)',
+          padding: 'var(--semantic-spacing-element)',
           backgroundColor: 'var(--component-card-bg)',
           border: `var(--primitive-border-width-thin) solid var(--component-card-border)`,
           borderRadius: 'var(--component-card-radius)',
@@ -173,7 +179,7 @@ export function PermissionsPage() {
             setFilters({ ...filters, userId: value === 'all' ? undefined : value })
           }
         >
-          <SelectTrigger aria-label="Filtrer par utilisateur">
+          <SelectTrigger aria-label="Filtrer par utilisateur" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Tous les utilisateurs" />
           </SelectTrigger>
           <SelectContent>
@@ -192,7 +198,7 @@ export function PermissionsPage() {
             setFilters({ ...filters, applicationId: value === 'all' ? undefined : value })
           }
         >
-          <SelectTrigger aria-label="Filtrer par application">
+          <SelectTrigger aria-label="Filtrer par application" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Toutes les applications" />
           </SelectTrigger>
           <SelectContent>
@@ -211,7 +217,7 @@ export function PermissionsPage() {
             setFilters({ ...filters, action: value === 'all' ? undefined : (value as any) })
           }
         >
-          <SelectTrigger aria-label="Filtrer par action">
+          <SelectTrigger aria-label="Filtrer par action" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Toutes les actions" />
           </SelectTrigger>
           <SelectContent>
@@ -232,7 +238,7 @@ export function PermissionsPage() {
             })
           }
         >
-          <SelectTrigger aria-label="Filtrer par statut">
+          <SelectTrigger aria-label="Filtrer par statut" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Toutes les permissions" />
           </SelectTrigger>
           <SelectContent>
@@ -261,6 +267,7 @@ export function PermissionsPage() {
             marginTop: 'var(--semantic-spacing-element)',
             fontSize: 'var(--primitive-font-size-sm)',
             color: 'var(--semantic-text-secondary)',
+            textAlign: 'center',
           }}
           role="status"
           aria-live="polite"

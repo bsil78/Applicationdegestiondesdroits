@@ -1,5 +1,6 @@
 /**
  * Page de gestion des utilisateurs
+ * Responsive: optimisée pour mobile et desktop
  */
 
 import React, { useEffect, useState } from 'react';
@@ -57,6 +58,7 @@ export function UsersPage() {
     {
       key: 'name',
       header: 'Nom',
+      mobileLabel: 'Utilisateur',
       render: (user) => (
         <div>
           <div style={{ fontWeight: 'var(--primitive-font-weight-medium)' }}>
@@ -101,11 +103,13 @@ export function UsersPage() {
     {
       key: 'country',
       header: 'Pays',
+      hideOnMobile: true, // Caché sur mobile
       render: (user) => getCountryName(user.countryId),
     },
     {
       key: 'orgUnit',
       header: 'Unité organisationnelle',
+      hideOnMobile: true, // Caché sur mobile
       render: (user) => (
         <div style={{ maxWidth: '200px' }} className="truncate" title={getOrgUnitName(user.organizationalUnitId)}>
           {getOrgUnitName(user.organizationalUnitId)}
@@ -123,32 +127,36 @@ export function UsersPage() {
         action={
           <Button
             onClick={() => navigate('/users/new')}
+            className="w-full sm:w-auto"
             style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: 'var(--primitive-space-sm)',
+              minHeight: '44px', // Touch target
             }}
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
-            Nouvel utilisateur
+            <span className="hidden sm:inline">Nouvel utilisateur</span>
+            <span className="sm:hidden">Nouveau</span>
           </Button>
         }
       />
 
-      {/* Filters */}
+      {/* Filters - Stack sur mobile */}
       <div
-        className="grid grid-cols-1 md:grid-cols-4 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
         style={{
           marginBottom: 'var(--semantic-spacing-component)',
-          padding: 'var(--component-card-padding)',
+          padding: 'var(--semantic-spacing-element)',
           backgroundColor: 'var(--component-card-bg)',
           border: `var(--primitive-border-width-thin) solid var(--component-card-border)`,
           borderRadius: 'var(--component-card-radius)',
         }}
       >
-        <div className="relative">
+        <div className="relative sm:col-span-2 lg:col-span-1">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
             style={{ color: 'var(--semantic-text-tertiary)' }}
             aria-hidden="true"
           />
@@ -157,7 +165,7 @@ export function UsersPage() {
             placeholder="Rechercher..."
             value={filters.search || ''}
             onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-            style={{ paddingLeft: '2.5rem' }}
+            style={{ paddingLeft: '2.5rem', minHeight: '44px' }}
             aria-label="Rechercher des utilisateurs"
           />
         </div>
@@ -168,7 +176,7 @@ export function UsersPage() {
             setFilters({ ...filters, role: value === 'all' ? undefined : (value as any) })
           }
         >
-          <SelectTrigger aria-label="Filtrer par rôle">
+          <SelectTrigger aria-label="Filtrer par rôle" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Tous les rôles" />
           </SelectTrigger>
           <SelectContent>
@@ -186,7 +194,7 @@ export function UsersPage() {
             setFilters({ ...filters, status: value === 'all' ? undefined : (value as any) })
           }
         >
-          <SelectTrigger aria-label="Filtrer par statut">
+          <SelectTrigger aria-label="Filtrer par statut" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Tous les statuts" />
           </SelectTrigger>
           <SelectContent>
@@ -203,7 +211,7 @@ export function UsersPage() {
             setFilters({ ...filters, countryId: value === 'all' ? undefined : value })
           }
         >
-          <SelectTrigger aria-label="Filtrer par pays">
+          <SelectTrigger aria-label="Filtrer par pays" style={{ minHeight: '44px' }}>
             <SelectValue placeholder="Tous les pays" />
           </SelectTrigger>
           <SelectContent>
@@ -235,6 +243,7 @@ export function UsersPage() {
             marginTop: 'var(--semantic-spacing-element)',
             fontSize: 'var(--primitive-font-size-sm)',
             color: 'var(--semantic-text-secondary)',
+            textAlign: 'center',
           }}
           role="status"
           aria-live="polite"

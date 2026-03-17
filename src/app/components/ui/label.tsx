@@ -1,24 +1,41 @@
-"use client";
+/**
+ * Composant Label pour les formulaires
+ * Accessible et stylisé avec les tokens de design
+ */
 
-import * as React from "react";
-import * as LabelPrimitive from "@radix-ui/react-label";
+import React from 'react';
 
-import { cn } from "./utils";
-
-function Label({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  return (
-    <LabelPrimitive.Root
-      data-slot="label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className,
-      )}
-      {...props}
-    />
-  );
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+  children: React.ReactNode;
 }
 
-export { Label };
+export function Label({ required, children, htmlFor, className, ...props }: LabelProps) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className={className}
+      style={{
+        display: 'block',
+        fontSize: 'var(--primitive-font-size-sm)',
+        fontWeight: 'var(--primitive-font-weight-medium)',
+        color: 'var(--semantic-text-primary)',
+        marginBottom: 'var(--primitive-space-sm)',
+      }}
+      {...props}
+    >
+      {children}
+      {required && (
+        <span
+          style={{
+            color: 'var(--semantic-color-danger)',
+            marginLeft: 'var(--primitive-space-xs)',
+          }}
+          aria-label="requis"
+        >
+          *
+        </span>
+      )}
+    </label>
+  );
+}

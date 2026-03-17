@@ -1,6 +1,6 @@
 /**
  * Composant d'en-tête de page réutilisable
- * Utilise les tokens sémantiques pour l'espacement
+ * Responsive: adapté pour mobile et desktop
  */
 
 import React from 'react';
@@ -18,7 +18,7 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
       className="border-b"
       style={{
         borderColor: 'var(--semantic-border-default)',
-        paddingBottom: 'var(--semantic-spacing-component)',
+        paddingBottom: 'var(--semantic-spacing-element)',
         marginBottom: 'var(--semantic-spacing-component)',
       }}
     >
@@ -26,6 +26,7 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
         <nav
           aria-label="Fil d'Ariane"
           style={{ marginBottom: 'var(--semantic-spacing-compact)' }}
+          className="hidden sm:block"
         >
           <ol className="flex items-center gap-2" style={{ fontSize: 'var(--primitive-font-size-sm)' }}>
             {breadcrumbs.map((crumb, index) => (
@@ -52,12 +53,13 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
         </nav>
       )}
 
-      <div className="flex items-start justify-between gap-4">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+        <div className="flex-1">
           <h1
             style={{
               color: 'var(--semantic-text-primary)',
               marginBottom: description ? 'var(--semantic-spacing-compact)' : '0',
+              fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', // Responsive font size
             }}
           >
             {title}
@@ -66,7 +68,7 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
             <p
               style={{
                 color: 'var(--semantic-text-secondary)',
-                fontSize: 'var(--primitive-font-size-base)',
+                fontSize: 'var(--primitive-font-size-sm)',
                 fontWeight: 'var(--primitive-font-weight-normal)',
               }}
             >
@@ -75,7 +77,11 @@ export function PageHeader({ title, description, action, breadcrumbs }: PageHead
           )}
         </div>
 
-        {action && <div className="flex-shrink-0">{action}</div>}
+        {action && (
+          <div className="flex-shrink-0 w-full sm:w-auto">
+            {action}
+          </div>
+        )}
       </div>
     </header>
   );

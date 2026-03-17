@@ -1,9 +1,9 @@
 /**
  * Composant Table de données réutilisable avec accessibilité
- * Utilise les tokens de design système niveau 3
+ * Responsive: affichage table sur desktop, cards sur mobile
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export interface Column<T> {
   key: string;
@@ -11,6 +11,8 @@ export interface Column<T> {
   render: (item: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
+  mobileLabel?: string; // Label optionnel pour l'affichage mobile
+  hideOnMobile?: boolean; // Cacher cette colonne sur mobile
 }
 
 interface DataTableProps<T> {
@@ -32,6 +34,117 @@ export function DataTable<T>({
   caption,
   loading = false,
 }: DataTableProps<T>) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Affichage mobile en cartes
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--primitive-space-md)',
+        }}
+      >
+        {caption && <h2 className="sr-only">{caption}</h2>}
+
+        {loading ? (
+          <div
+            className="text-center"
+            style={{
+              padding: 'var(--semantic-spacing-component)',
+              color: 'var(--semantic-text-secondary)',
+            }}
+          >
+            Chargement...
+          </div>
+        ) : data.length === 0 ? (
+          <div
+            className="text-center"
+            style={{
+              padding: 'var(--semantic-spacing-component)',
+              color: 'var(--semantic-text-secondary)',
+            }}
+          >
+            {emptyMessage}
+          </div>
+        ) : (
+          data.map((item, index) => (
+            <div
+              key={keyExtractor(item)}
+              onClick={onRowClick ? () => onRowClick(item) : undefined}
+              className={onRowClick ? 'cursor-pointer' : ''}
+              style={{
+                backgroundColor: 'var(--component-card-bg)',
+                border: `var(--primitive-border-width-thin) solid var(--component-card-border)`,
+                borderRadius: 'var(--component-card-radius)',
+                padding: 'var(--semantic-spacing-element)',
+                transition: `box-shadow var(--primitive-transition-fast) ease`,
+              }}
+              onMouseEnter={(e) => {
+                if (onRowClick) {
+                  e.currentTarget.style.boxShadow = 'var(--primitive-shadow-md)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+              tabIndex={onRowClick ? 0 : undefined}
+              role={onRowClick ? 'button' : undefined}
+              onKeyDown={
+                onRowClick
+                  ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onRowClick(item);
+                      }
+                    }
+                  : undefined
+              }
+              aria-label={onRowClick ? `Sélectionner l'élément ${index + 1}` : undefined}
+            >
+              {columns
+                .filter((col) => !col.hideOnMobile)
+                .map((column) => (
+                  <div
+                    key={column.key}
+                    style={{
+                      marginBottom: 'var(--primitive-space-sm)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 'var(--primitive-font-size-xs)',
+                        color: 'var(--semantic-text-secondary)',
+                        marginBottom: 'var(--primitive-space-xs)',
+                        fontWeight: 'var(--primitive-font-weight-medium)',
+                      }}
+                    >
+                      {column.mobileLabel || column.header}
+                    </div>
+                    <div style={{ fontSize: 'var(--primitive-font-size-sm)' }}>
+                      {column.render(item)}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          ))
+        )}
+      </div>
+    );
+  }
+
+  // Affichage desktop en table
   return (
     <div
       className="overflow-x-auto"

@@ -8,7 +8,11 @@ import { AppLayout } from './components/app-layout';
 import { LoginPage } from './pages/login';
 import { DashboardPage } from './pages/dashboard';
 import { UsersPage } from './pages/users';
+import { UserFormPage } from './pages/user-form';
+import { UserDetailPage } from './pages/user-detail';
 import { PermissionsPage } from './pages/permissions';
+import { PermissionFormPage } from './pages/permission-form';
+import { PermissionDetailPage } from './pages/permission-detail';
 import { AuditPage } from './pages/audit';
 import { ProfilePage } from './pages/profile';
 
@@ -101,18 +105,26 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/users/:id',
+    path: '/users/new',
     element: (
       <ProtectedRoute>
-        <div>Détail utilisateur (à implémenter)</div>
+        <UserFormPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: '/users/new',
+    path: '/users/:id',
     element: (
       <ProtectedRoute>
-        <div>Nouveau utilisateur (à implémenter)</div>
+        <UserDetailPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/users/:id/edit',
+    element: (
+      <ProtectedRoute>
+        <UserFormPage />
       </ProtectedRoute>
     ),
   },
@@ -125,18 +137,26 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/permissions/:id',
+    path: '/permissions/new',
     element: (
       <ProtectedRoute>
-        <div>Détail permission (à implémenter)</div>
+        <PermissionFormPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: '/permissions/new',
+    path: '/permissions/:id',
     element: (
       <ProtectedRoute>
-        <div>Nouvelle permission (à implémenter)</div>
+        <PermissionDetailPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/permissions/:id/edit',
+    element: (
+      <ProtectedRoute>
+        <PermissionFormPage />
       </ProtectedRoute>
     ),
   },

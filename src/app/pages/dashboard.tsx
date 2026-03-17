@@ -130,7 +130,7 @@ export function DashboardPage() {
         <>
           {/* Statistics Cards */}
           <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
             style={{ marginBottom: 'var(--semantic-spacing-section)' }}
           >
             <StatCard
@@ -172,7 +172,7 @@ export function DashboardPage() {
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2>Utilisateurs récents</h2>
+              <h2 style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>Utilisateurs récents</h2>
               <Link
                 to="/users"
                 style={{
@@ -186,51 +186,54 @@ export function DashboardPage() {
               </Link>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {users.slice(0, 5).map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-3 sm:gap-4"
                   style={{
-                    padding: 'var(--primitive-space-md)',
+                    padding: 'var(--primitive-space-sm) var(--primitive-space-md)',
                     borderRadius: 'var(--primitive-radius-md)',
                     backgroundColor: 'var(--semantic-surface-raised)',
                   }}
                 >
                   <div
-                    className="flex items-center justify-center"
+                    className="flex items-center justify-center flex-shrink-0"
                     style={{
-                      width: '40px',
-                      height: '40px',
+                      width: '36px',
+                      height: '36px',
                       borderRadius: 'var(--primitive-radius-full)',
                       backgroundColor: 'var(--semantic-interactive-primary)',
                       color: 'var(--semantic-text-inverse)',
-                      fontSize: 'var(--primitive-font-size-sm)',
+                      fontSize: 'var(--primitive-font-size-xs)',
                       fontWeight: 'var(--primitive-font-weight-semibold)',
                     }}
                   >
                     {user.firstName[0]}
                     {user.lastName[0]}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <p
                       style={{
                         fontWeight: 'var(--primitive-font-weight-medium)',
                         color: 'var(--semantic-text-primary)',
+                        fontSize: 'var(--primitive-font-size-sm)',
                       }}
+                      className="truncate"
                     >
                       {user.firstName} {user.lastName}
                     </p>
                     <p
                       style={{
-                        fontSize: 'var(--primitive-font-size-sm)',
+                        fontSize: 'var(--primitive-font-size-xs)',
                         color: 'var(--semantic-text-secondary)',
                       }}
+                      className="truncate"
                     >
                       {user.email}
                     </p>
                   </div>
-                  <div>
+                  <div className="hidden sm:block">
                     <span
                       style={{
                         fontSize: 'var(--primitive-font-size-xs)',
@@ -255,8 +258,10 @@ export function DashboardPage() {
               padding: 'var(--component-card-padding)',
             }}
           >
-            <h2 style={{ marginBottom: 'var(--semantic-spacing-element)' }}>Actions rapides</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <h2 style={{ marginBottom: 'var(--semantic-spacing-element)', fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
+              Actions rapides
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <Link
                 to="/users?action=create"
                 className="flex items-center gap-3 p-4 rounded-lg border transition-colors hover:bg-gray-50"
@@ -264,25 +269,27 @@ export function DashboardPage() {
                   textDecoration: 'none',
                   borderColor: 'var(--semantic-border-default)',
                   borderRadius: 'var(--primitive-radius-md)',
+                  minHeight: '80px',
                 }}
               >
                 <Users
-                  className="w-5 h-5"
+                  className="w-6 h-6 flex-shrink-0"
                   style={{ color: 'var(--semantic-interactive-primary)' }}
                   aria-hidden="true"
                 />
-                <div>
+                <div className="flex-1">
                   <p
                     style={{
                       fontWeight: 'var(--primitive-font-weight-medium)',
                       color: 'var(--semantic-text-primary)',
+                      fontSize: 'var(--primitive-font-size-sm)',
                     }}
                   >
                     Nouvel utilisateur
                   </p>
                   <p
                     style={{
-                      fontSize: 'var(--primitive-font-size-sm)',
+                      fontSize: 'var(--primitive-font-size-xs)',
                       color: 'var(--semantic-text-secondary)',
                     }}
                   >
@@ -298,25 +305,27 @@ export function DashboardPage() {
                   textDecoration: 'none',
                   borderColor: 'var(--semantic-border-default)',
                   borderRadius: 'var(--primitive-radius-md)',
+                  minHeight: '80px',
                 }}
               >
                 <Shield
-                  className="w-5 h-5"
+                  className="w-6 h-6 flex-shrink-0"
                   style={{ color: 'var(--semantic-color-success)' }}
                   aria-hidden="true"
                 />
-                <div>
+                <div className="flex-1">
                   <p
                     style={{
                       fontWeight: 'var(--primitive-font-weight-medium)',
                       color: 'var(--semantic-text-primary)',
+                      fontSize: 'var(--primitive-font-size-sm)',
                     }}
                   >
                     Nouvelle permission
                   </p>
                   <p
                     style={{
-                      fontSize: 'var(--primitive-font-size-sm)',
+                      fontSize: 'var(--primitive-font-size-xs)',
                       color: 'var(--semantic-text-secondary)',
                     }}
                   >
@@ -327,30 +336,32 @@ export function DashboardPage() {
 
               <Link
                 to="/audit"
-                className="flex items-center gap-3 p-4 rounded-lg border transition-colors hover:bg-gray-50"
+                className="flex items-center gap-3 p-4 rounded-lg border transition-colors hover:bg-gray-50 sm:col-span-2 lg:col-span-1"
                 style={{
                   textDecoration: 'none',
                   borderColor: 'var(--semantic-border-default)',
                   borderRadius: 'var(--primitive-radius-md)',
+                  minHeight: '80px',
                 }}
               >
                 <TrendingUp
-                  className="w-5 h-5"
+                  className="w-6 h-6 flex-shrink-0"
                   style={{ color: 'var(--semantic-color-info)' }}
                   aria-hidden="true"
                 />
-                <div>
+                <div className="flex-1">
                   <p
                     style={{
                       fontWeight: 'var(--primitive-font-weight-medium)',
                       color: 'var(--semantic-text-primary)',
+                      fontSize: 'var(--primitive-font-size-sm)',
                     }}
                   >
                     Consulter l'audit
                   </p>
                   <p
                     style={{
-                      fontSize: 'var(--primitive-font-size-sm)',
+                      fontSize: 'var(--primitive-font-size-xs)',
                       color: 'var(--semantic-text-secondary)',
                     }}
                   >
